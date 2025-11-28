@@ -61,6 +61,7 @@ python main.py --model RIDNET \
     The real denoising model can be downloaded from [Google Drive](https://drive.google.com/open?id=1QxO6KFOVxaYYiwxliwngxhw_xCtInSHd) or [here](https://icedrive.net/0/e3Cb4ifYSl). The total size for all models is 5MB.
 
     [The FMD fine tune can be found here](https://drive.google.com/file/d/1YS189pDk90r9ev5R3EIlrxLzigc0AxOn/view?usp=sharing)
+    The .pt available for the fine tune has a reduced training, validation, and testing set due to Colab's limitations, training with 3000 pairs and 600 pairs for validation with a patch size of 32 and 30 epochs.
 
 2. Cd to '/TestCode/code', run the following scripts.
 
