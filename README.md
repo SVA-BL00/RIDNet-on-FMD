@@ -10,6 +10,10 @@ Find the original README.md file in the respective repository.
 RIDNet proposes a network to succesfully denoise artificial and real noise in a single-stage, blind model. While older models usually employ 2 subnets or could only properly handle spatially invariant noise, RIDNet applies modular architecture and feature attention at its core, and performs significantly better than other models.
 To test the model's generality, we are denoising Fluorence Real Fluorescence Microscopy Images (RMD) and comparing its blind effectiveness vs a version of the model fine tuned specifically for RMD.
 
+<p align="center">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/Confocal_FISH_1_x50.png">
+</p>
+
 [Test images for RMD](https://drive.google.com/drive/folders/1FSMr4uGLzJs3ZhT7ntflCcVrvlwsx9aq?usp=sharing)
 
 [Train and validate images for RMD](https://drive.google.com/drive/folders/1Z6psZh2tLZs3uK2wKquyPr_6uy8j1xxd?usp=sharing)
@@ -100,43 +104,28 @@ The ground truth images have the suffix               _HR
 The denoised images by the model have the suffix      _SR
 
 
-### Quantitative Results
+### Results
 <p align="center">
-  <img width="500" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/DnDTable.PNG">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/Confocal_BPAE_B_1_x50.png">
 </p>
-The performance of state-of-the-art algorithms on widely used publicly available DnD dataset in terms of PSNR (in dB) and SSIM. The best results are highlighted in bold.
-
 <p align="center">
-  <img width="500" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/SSIDTable.PNG">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/Confocal_BPAE_G_1_x50.png">
 </p>
-The quantitative results (in PSNR (dB)) for the SSID and Nam datasets.. The best results are presented in bold.
-
-For more information, please refer to our [paper](https://arxiv.org/abs/1904.07396)
-
-### Visual Results
-![Visual_PSNR_DnD1](/Figs/DnD.PNG)
-A real noisy example from DND dataset for comparison of our method against the state-of-the-art algorithms.
-
-![Visual_PSNR_DnD2](/Figs/DnD2.PNG)
-![Visual_PSNR_Dnd3](/Figs/DnD3.PNG)
-Comparison on more samples from DnD. The sharpness of the edges on the objects and textures restored by our method is the best.
-
 <p align="center">
-  <img width="500" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/RNI15.PNG">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/Confocal_MICE_2_x50.png">
 </p>
-A real high noise example from RNI15 dataset. Our method is able to remove the noise in textured and smooth areas without introducing artifacts
-
 <p align="center">
-  <img width="500" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/SSID.PNG">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/TwoPhoton_BPAE_B_2_x50.png">
 </p>
-A challenging example from SSID dataset. Our method can remove noise and restore true colors
+<p align="center">
+  <img width="600" src="https://github.com/SVA-BL00/RIDNet-on-FMD/blob/master/tables/WideField_BPAE_G_4_x50.png">
+</p>
 
-![Visual_PSNR_SSIM_BI](/Figs/SSID3.PNG)
-![Visual_PSNR_SSIM_BI](/Figs/SSID2.PNG)
-Few more examples from SSID dataset.
+For more examples, check out the image folder with the results linked previously or the tables/
+
 
 ## Citation
-If you find the code helpful in your resarch or work, please cite the following papers.
+
 ```
 @article{anwar2019ridnet,
   title={Real Image Denoising with Feature Attention},
