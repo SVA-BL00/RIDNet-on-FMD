@@ -1,3 +1,5 @@
+from collections import defaultdict
+import re
 import os
 from data import common
 import numpy as np
@@ -21,20 +23,36 @@ class FMDVal(data.Dataset):
         print("Clean dir:", self.clean_dir)
         print("Noisy dir:", self.noisy_dir)
 
-        clean_files = sorted([f for f in os.listdir(self.clean_dir) if f.endswith(".png")])
-        noisy_files = sorted([f for f in os.listdir(self.noisy_dir) if f.endswith(".png")])
+        clean_files = sorted([f for f in os.listdir(self.clean_dir) if f.endswith((".png", ".jpg"))])
+        noisy_files = sorted([f for f in os.listdir(self.noisy_dir) if f.endswith((".png", ".jpg"))])
 
-        clean_files = clean_files[4500:5000]
-        noisy_files = noisy_files[4500:5000]
+        def get_prefix(fname):
+            return re.match(r"([a-zA-Z_]+)", fname).group(1)
+
+        groups = defaultdict(list)
+        for f in clean_files:
+            groups[get_prefix(f)].append(f)
+
+        for prefix in groups:
+            groups[prefix] = sorted(groups[prefix])
+
+        FIXED_VAL_PER_PREFIX = 200
+        val_files = []
+
+        for prefix, file_list in groups.items():
+            val_files.extend(file_list[:FIXED_VAL_PER_PREFIX])
+
+        clean_files = val_files
+        noisy_files = val_files
 
         self.filelist = []
-        for clean_f in clean_files:
-            noisy_path = os.path.join(self.noisy_dir, clean_f)
-            clean_path = os.path.join(self.clean_dir, clean_f)
-            if os.path.exists(noisy_path):
-                self.filelist.append((noisy_path, clean_path))
+        for f in clean_files:
+            noisy_f = os.path.join(self.noisy_dir, f)
+            clean_f = os.path.join(self.clean_dir, f)
+            if os.path.exists(noisy_f):
+                self.filelist.append((noisy_f, clean_f))
             else:
-                print(f"No noisy version found for: {clean_f}")
+                print("⚠️ No noisy version found for:", f)
 
         print(len(self.filelist), "image pairs")
 

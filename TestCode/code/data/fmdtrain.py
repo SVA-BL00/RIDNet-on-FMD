@@ -3,6 +3,8 @@ from data import common
 import numpy as np
 from PIL import Image
 import torch.utils.data as data
+from collections import defaultdict
+import re
 
 class FMDTrain(data.Dataset):
     def __init__(self, args, train=False):
@@ -20,19 +22,35 @@ class FMDTrain(data.Dataset):
         print("Clean dir:", self.clean_dir)
         print("Noisy dir:", self.noisy_dir)
 
-        clean_files = sorted([f for f in os.listdir(self.clean_dir) if f.endswith(".png")])
-        noisy_files = sorted([f for f in os.listdir(self.noisy_dir) if f.endswith(".png")])
+        clean_files = sorted([f for f in os.listdir(self.clean_dir) if f.endswith((".png", ".jpg"))])
+        noisy_files = sorted([f for f in os.listdir(self.noisy_dir) if f.endswith((".png", ".jpg"))])
 
-        # This part is hardcoded with the paired images found, adjust accordingly
-        clean_files = clean_files[:4500]
-        noisy_files = noisy_files[:4500]
+        def get_prefix(fname):
+            return re.match(r"([a-zA-Z_]+)", fname).group(1)
+
+        groups = defaultdict(list)
+        for f in clean_files:
+            groups[get_prefix(f)].append(f)
+
+
+        for prefix in groups:
+            groups[prefix] = sorted(groups[prefix])
+
+        FIXED_VAL_PER_PREFIX = 200
+        train_files = []
+
+        for prefix, file_list in groups.items():
+            train_files.extend(file_list[FIXED_VAL_PER_PREFIX:])
+
+        clean_files = train_files
+        noisy_files = train_files
 
         self.filelist = []
-        for clean_f in clean_files:
-            noisy_path = os.path.join(self.noisy_dir, clean_f)
-            clean_path = os.path.join(self.clean_dir, clean_f)
-            if os.path.exists(noisy_path):
-                self.filelist.append((noisy_path, clean_path))
+        for f in clean_files:
+            noisy_f = os.path.join(self.noisy_dir, f)
+            clean_f = os.path.join(self.clean_dir, f)
+            if os.path.exists(noisy_f):
+                self.filelist.append((noisy_f, clean_f))
             else:
                 print(f"No noisy version found for: {clean_f}")
 
@@ -55,7 +73,7 @@ class FMDTrain(data.Dataset):
 
         filename = os.path.splitext(os.path.basename(noisy_path))[0]
 
-        return lr_tensor, hr_tensor, filename,0
+        return lr_tensor, hr_tensor, filename, 0
 
     def __len__(self):
         return len(self.filelist)
