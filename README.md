@@ -33,8 +33,7 @@ The feature attention mechanism for selecting the essential features.
 ## Train
 
 This version uses the ridnet.pt as a starting point and fine tunes it with FMDTrain
-and FMDVal. FMDTrain and FMDVal are in the same folder. Each type of subdataset contains 1000
-data pairs, for validation we use the first 200 and for training we use the last 800.
+and FMDVal. FMDTrain and FMDVal are in the same folder. Each type of subdataset contains 1000 data pairs, for validation we use the first 200 and for training we use the last 800.
 
 
 ```
@@ -93,6 +92,27 @@ python main.py --model RIDNET \
       --save_results
     ```
 
+## How to use? / Explanation
+
+When you wish to add a new dataset to test or train, copy a similar dataset to yours, from
+inside data. You can define how your dataset looks like, the format, and how to retrieve the
+groundtruth and the noisy version. This version of RIDNet is hardcoded on 3 channels, so to
+avoid bugs, grayscale images must be passed to 3 channels. This is the case with FMD. 
+For examples, take a look at any fmd dataset in TestCode/code/data/
+
+If testing or training is to be done in Google Colab, set the number of threads to 0 due to 
+Colab's own limitations. Make sure that when you're training on a new dataset, you add 
+different datasets for training and validating.
+
+
+The repository is set up so the dataset object created will load the noisy/gt images, and 
+return the lr_tensor, hr_tensor, filename. Dataloader manages the multi-threading part of
+the project, loading batches in parallel. The trainer runs the training loop with the 
+lr_tensor, hr_tensor, filename, and idx_scale (added by dataloader). It feeds it into
+the model, calculates weights and loss. RIDNet uses an optimizer and a loss, found in the 
+/loss folder. The model/ folder is where the main core of the project is located, with the
+modular structure previously defined in ridnet, and all of the math operations and
+convolutions are defined in ops.py.
 
 ## Results
 **[RIDNet fine-tuned (ours) for FMD images](https://drive.google.com/drive/folders/1Nh7oFHP-52iLdlQseVludMRtIp1Cz8f6?usp=drive_link)**
