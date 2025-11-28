@@ -101,7 +101,7 @@ class checkpoint():
         self.log_file.close()
 
     def plot_psnr(self, epoch):
-        axis = np.linspace(1, epoch, epoch)
+        axis = np.linspace(1, len(self.log), len(self.log))
         label = 'Denoise on {}'.format(self.args.data_test)
         fig = plt.figure()
         plt.title(label)
