@@ -19,6 +19,9 @@ Find the original README.md file in the respective repository.
 RIDNet proposes a network to succesfully denoise artificial and real noise in a single-stage, blind model. While older models usually employ 2 subnets or could only properly handle spatially invariant noise, RIDNet applies modular architecture and feature attention at its core, and performs significantly better than other models.
 To test the model's generality, we are denoising Fluorence Real Fluorescence Microscopy Images (RMD) and comparing its blind effectiveness vs a version of the model fine tuned specifically for RMD.
 
+[Test images for RMD](https://drive.google.com/drive/folders/1FSMr4uGLzJs3ZhT7ntflCcVrvlwsx9aq?usp=sharing)
+[Train and validate images for RMD](https://drive.google.com/drive/folders/1Z6psZh2tLZs3uK2wKquyPr_6uy8j1xxd?usp=sharing)
+
 <p align="center">
   <img width="600" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/Front.PNG">
 </p>
