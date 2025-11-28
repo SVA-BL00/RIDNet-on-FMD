@@ -92,6 +92,7 @@ python main.py --model RIDNET \
 
 ## Results
 **[RIDNet fine-tuned (ours) for FMD images](https://drive.google.com/drive/folders/1Nh7oFHP-52iLdlQseVludMRtIp1Cz8f6?usp=drive_link)**
+
 **[RIDNet pre-trained (default) for FMD images](https://drive.google.com/drive/folders/1NV-nFaftL2gPcNDpbnKcCxqy-FOO2tX0?usp=sharing)**
 
 The noisy images have the suffix                      _LR
