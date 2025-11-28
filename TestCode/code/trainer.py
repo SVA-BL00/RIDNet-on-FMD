@@ -139,6 +139,8 @@ class Trainer():
             self.test()
             return True
         else:
+            if not hasattr(self, 'start_epoch'):
+                self.start_epoch = self.scheduler.last_epoch + 1
             epoch = self.scheduler.last_epoch + 1
-            return epoch >= self.args.epochs
+            return epoch >= self.start_epoch + self.args.epochs
 
