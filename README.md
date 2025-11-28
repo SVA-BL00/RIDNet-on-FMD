@@ -6,15 +6,6 @@ This repository is a fork of Real Image Denoising with Feature Attention (RIDNet
 Find the original README.md file in the respective repository.
 
 
-## Contents
-1. [Introduction](#introduction)
-2. [Network](#network)
-2. [Train](#train)
-3. [Test](#test)
-4. [Results](#results)
-5. [Citation](#citation)
-6. [Acknowledgements](#acknowledgements)
-
 ## Introduction
 RIDNet proposes a network to succesfully denoise artificial and real noise in a single-stage, blind model. While older models usually employ 2 subnets or could only properly handle spatially invariant noise, RIDNet applies modular architecture and feature attention at its core, and performs significantly better than other models.
 To test the model's generality, we are denoising Fluorence Real Fluorescence Microscopy Images (RMD) and comparing its blind effectiveness vs a version of the model fine tuned specifically for RMD.
@@ -23,10 +14,6 @@ To test the model's generality, we are denoising Fluorence Real Fluorescence Mic
 
 [Train and validate images for RMD](https://drive.google.com/drive/folders/1Z6psZh2tLZs3uK2wKquyPr_6uy8j1xxd?usp=sharing)
 
-<p align="center">
-  <img width="600" src="https://github.com/saeed-anwar/RIDNet/blob/master/Figs/Front.PNG">
-</p>
-Sample results on a real noisy face image from RNI15 dataset.
 
 ## Network
 ![Network](/Figs/Net.PNG)
@@ -40,7 +27,29 @@ The feature attention mechanism for selecting the essential features.
 
 
 ## Train
-**Will be added later**
+
+This version uses the ridnet.pt as a starting point and fine tunes it with FMDTrain
+and FMDVal. FMDTrain and FMDVal are in the same folder. Each type of subdataset contains 1000
+data pairs, for validation we use the first 200 and for training we use the last 800.
+
+
+```
+python main.py --model RIDNET \
+  --pre_train ridnet.pt \
+  --save FMD_finetune \
+  --dir_data dir/files/ \
+  --data_train FMDTrain \
+  --data_test FMDVal \
+  --n_train 9600 \
+  --epochs 30 \
+  --batch_size 8 \
+  --lr 1e-5 \
+  --noise_g 50 \
+  --n_colors 3 \
+  --patch_size 64 \
+  --print_every 5 \
+  --n_threads 0
+```
 
 ## Test
 ### Quick start
@@ -48,18 +57,47 @@ The feature attention mechanism for selecting the essential features.
 
     The real denoising model can be downloaded from [Google Drive](https://drive.google.com/open?id=1QxO6KFOVxaYYiwxliwngxhw_xCtInSHd) or [here](https://icedrive.net/0/e3Cb4ifYSl). The total size for all models is 5MB.
 
+    [The FMD fine tune can be found here](https://drive.google.com/file/d/1YS189pDk90r9ev5R3EIlrxLzigc0AxOn/view?usp=sharing)
+
 2. Cd to '/TestCode/code', run the following scripts.
 
     **You can use the following script to test the algorithm**
 
-    ```bash
-    #RIDNET
-    CUDA_VISIBLE_DEVICES=0 python main.py --data_test MyImage --noise_g 1 --model RIDNET --n_feats 64 --pre_train ../experiment/ridnet.pt --test_only --save_results --save 'RIDNET_RNI15' --testpath ../LR/LRBI/ --testset RNI15
+    ```
+    !python main.py --model RIDNET \
+      --pre_train /route/ridnet.pt \
+      --test_only \
+      --save FMD_test_extract \
+      --dir_data /route/testing \
+      --data_test FMDTest \
+      --noise_g 50 \
+      --n_colors 3 \
+      --n_threads 0 \
+      --save_results
+    ```
+
+    ```
+    !python main.py --model RIDNET \
+      --pre_train /route/model_latest.pt \
+      --test_only \
+      --save FMD_test_finetune \
+      --dir_data /route/testing \
+      --data_test FMDTest \
+      --noise_g 50 \
+      --n_colors 3 \
+      --n_threads 0 \
+      --save_results
     ```
 
 
 ## Results
-**All the results for RIDNET can be downloaded from GoogleDrive from [SSID](https://drive.google.com/open?id=15peD5EvQ5eQmd-YOtEZLd9_D4oQwWT9e), [RNI15](https://drive.google.com/open?id=1PqLHY6okpD8BRU5mig0wrg-Xhx3i-16C) and [DnD](https://noise.visinf.tu-darmstadt.de/submission-detail). The size of the results is 65MB** 
+**[RIDNet fine-tuned (ours) for FMD images](https://drive.google.com/drive/folders/1Nh7oFHP-52iLdlQseVludMRtIp1Cz8f6?usp=drive_link)**
+**[RIDNet pre-trained (default) for FMD images](https://drive.google.com/drive/folders/1NV-nFaftL2gPcNDpbnKcCxqy-FOO2tX0?usp=sharing)**
+
+The noisy images have the suffix                      _LR
+The ground truth images have the suffix               _HR
+The denoised images by the model have the suffix      _SR
+
 
 ### Quantitative Results
 <p align="center">
