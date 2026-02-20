@@ -18,6 +18,7 @@ To test the model's generality, we are denoising Fluorence Real Fluorescence Mic
 
 [Train and validate images for RMD](https://drive.google.com/drive/folders/1Z6psZh2tLZs3uK2wKquyPr_6uy8j1xxd?usp=sharing)
 
+[RIDNet on FMD paper](RIDNet_Comp478.pdf)
 
 ## Network
 ![Network](/Figs/Net.PNG)
